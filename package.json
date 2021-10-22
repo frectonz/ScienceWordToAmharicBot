@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "start": "node ./dist/bot.js"
+    "dev:start": "node ./dist/bot.js"
   },
   "author": "Fraol Lemecha",
   "license": "MIT",
