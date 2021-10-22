@@ -28,7 +28,7 @@ export function handleSearch(searchWord: string): string {
   console.log("[FOUND_WORD]:", foundWords);
 
   if (foundWords.length === 0) {
-    return `No translation found for <b>${searchWord}</b>"`;
+    return `No translation found for <b>${searchWord}</b>`;
   } else {
     let message = foundWords
       .map((word, i) => `${i + 1}, ${word.word} => ${word.translation}`)
