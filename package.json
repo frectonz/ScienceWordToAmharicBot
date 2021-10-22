@@ -1,0 +1,17 @@
+{
+  "name": "science_word_to_amharic_bot",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/bot.js"
+  },
+  "author": "Fraol Lemecha",
+  "license": "MIT",
+  "dependencies": {
+    "grammy": "^1.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.2",
+    "typescript": "^4.4.4"
+  }
+}
