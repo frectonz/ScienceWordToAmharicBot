@@ -6,10 +6,21 @@ if (process.env.BOT_TOKEN) {
   const bot = new Bot(process.env.BOT_TOKEN);
   const words = getWords();
 
-  bot.api.setMyCommands([{ command: "start", description: "Starts the bot" }]);
+  bot.api.setMyCommands([
+    { command: "start", description: "Starts the bot" },
+    { command: "random", description: "Get a random word" },
+  ]);
 
   bot.command("start", (ctx) => {
     ctx.reply(`Hi, ${ctx.from?.username}`);
+  });
+
+  bot.command("random", (ctx) => {
+    const randomWord = words[Math.floor(Math.random() * words.length)];
+
+    ctx.reply(`<b>${randomWord.word}</b> => <b>${randomWord.translation}</b>`, {
+      parse_mode: "HTML",
+    });
   });
 
   bot.on("message:text", async (ctx) => {

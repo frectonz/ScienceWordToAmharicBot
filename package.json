@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "tsc",
+    "clean": "rm -rf dist",
     "dev:start": "node ./dist/bot.js"
   },
   "author": "Fraol Lemecha",
