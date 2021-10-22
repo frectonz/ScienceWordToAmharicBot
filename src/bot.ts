@@ -1,9 +1,14 @@
 import { Bot } from "grammy";
-import { getWords } from "./db";
+
+import {
+  handleAbout,
+  handleRandomWord,
+  handleSearch,
+  handleStart,
+} from "./handlers";
 
 export default function makeBot(token: string) {
   const bot = new Bot(token);
-  const words = getWords();
 
   bot.api.setMyCommands([
     { command: "start", description: "Starts the bot" },
@@ -12,50 +17,29 @@ export default function makeBot(token: string) {
   ]);
 
   bot.command("start", (ctx) => {
-    ctx.reply(
-      `Hi, ${ctx.from?.username}.\nIf you want to search for a translation of word send it as a message.\nOr get a random word translation with /random`
-    );
+    const msg = handleStart(ctx.from?.username || "user");
+    ctx.reply(msg);
   });
 
   bot.command("random", (ctx) => {
-    const randomWord = words[Math.floor(Math.random() * words.length)];
-
-    ctx.reply(`<b>${randomWord.word}</b> => <b>${randomWord.translation}</b>`, {
+    const msg = handleRandomWord();
+    ctx.reply(msg, {
       parse_mode: "HTML",
     });
   });
 
   bot.command("about", (ctx) => {
-    ctx.reply(
-      "This bot was created by Fraol Lemecha. All the code and dictionary data can be found <a href='https://github.com/fraol0912/ScienceWordToAmharicBot'>here</a>",
-      {
-        parse_mode: "HTML",
-      }
-    );
+    const msg = handleAbout();
+    ctx.reply(msg, {
+      parse_mode: "HTML",
+    });
   });
 
   bot.on("message:text", async (ctx) => {
-    const searchWord = ctx.message.text.trim();
-
-    console.log("[SEARCH_WORD]:", searchWord);
-
-    const foundWords = words.filter(({ word }) =>
-      searchWord.toLowerCase().includes(word.toLowerCase())
-    );
-
-    console.log("[FOUND_WORD]:", foundWords);
-
-    if (foundWords.length === 0) {
-      ctx.reply(`No translation found for "${searchWord}".`);
-    } else {
-      let message = foundWords
-        .map((word, i) => `${i + 1}, ${word.word} => ${word.translation}`)
-        .join("\n");
-
-      ctx.reply(`<b>Translations</b>\n${message}`, {
-        parse_mode: "HTML",
-      });
-    }
+    const msg = handleSearch(ctx.message.text);
+    ctx.reply(msg, {
+      parse_mode: "HTML",
+    });
   });
 
   return bot;
