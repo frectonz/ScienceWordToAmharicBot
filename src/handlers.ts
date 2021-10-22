@@ -2,7 +2,7 @@ import { getWords } from "./db";
 const words = getWords();
 
 export function handleStart(username: string): string {
-  return `Hi, ${username}.\nIf you want to search for a translation of word send it as a message.\nOr get a random word translation with /random`;
+  return `Hi, ${username}.\nIf you want to search for the translation of a word, send it as a message.\nOr get a random word translation with /random`;
 }
 
 export function handleRandomWord(): string {
