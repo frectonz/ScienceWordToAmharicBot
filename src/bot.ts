@@ -1,10 +1,10 @@
 import { Bot } from "grammy";
 
 import {
-  handleAbout,
-  handleRandomWord,
-  handleSearch,
   handleStart,
+  handleAbout,
+  handleSearch,
+  handleRandomWord,
 } from "./handlers";
 
 export default function makeBot(token: string) {
