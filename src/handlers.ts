@@ -20,9 +20,9 @@ export function handleSearch(searchWord: string): string {
 
   console.log("[SEARCH_WORD]:", searchWord);
 
-  const foundWords = words.filter(({ word }) =>
-    word.toLowerCase().includes(searchWord.toLowerCase())
-  );
+  const foundWords = words
+    .filter(({ word }) => word.toLowerCase().includes(searchWord.toLowerCase()))
+    .splice(30);
 
   console.log("[FOUND_WORD]:", foundWords);
 
