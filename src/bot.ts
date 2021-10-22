@@ -12,7 +12,9 @@ if (process.env.BOT_TOKEN) {
   ]);
 
   bot.command("start", (ctx) => {
-    ctx.reply(`Hi, ${ctx.from?.username}`);
+    ctx.reply(
+      `Hi, ${ctx.from?.username}\nIf you want to search for a translation of word send it as a message.\nOr get a random word translation with /random`
+    );
   });
 
   bot.command("random", (ctx) => {
