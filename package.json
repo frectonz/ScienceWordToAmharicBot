@@ -4,7 +4,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
-    "dev": "node ./dist/main.js"
+    "start": "node dist/main.js"
   },
   "author": "Fraol Lemecha",
   "license": "MIT",
