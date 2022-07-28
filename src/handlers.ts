@@ -8,32 +8,40 @@ export function handleStart(username: string): string {
 export function handleRandomWord(): string {
   const randomWord = words[Math.floor(Math.random() * words.length)];
 
-  return `<b>${randomWord.word}</b> => <b>${randomWord.translation}</b>`;
+  return `<b>${randomWord.word}</b><pre>${randomWord.translation}</pre>`;
 }
 
 export function handleAbout(): string {
-  return "This bot was created by Fraol Lemecha. All the code and dictionary data can be found <a href='https://github.com/fraol0912/ScienceWordToAmharicBot'>here</a>";
+  return "This bot was created by Fraol Lemecha. All the code and dictionary data can be found <a href='https://github.com/frectonz/ScienceWordToAmharicBot'>here</a>";
 }
 
 export function handleSearch(searchWord: string): string {
   searchWord = searchWord.trim();
 
-  console.log("[SEARCH_WORD]:", searchWord);
+  const oneWord = words.find(({ word }) => areWordsEqual(searchWord, word));
 
-  const foundWords = words.filter(({ word }) =>
-    word.toLowerCase().includes(searchWord.toLowerCase())
-  );
-  foundWords.splice(30);
+  if (oneWord) {
+    let response = `<pre>${oneWord.translation}</pre>\n\n`;
 
-  console.log("[FOUND_WORD]:", foundWords);
+    const relatedWords = words
+      .filter(
+        ({ word }) =>
+          word.toLowerCase().startsWith(searchWord.toLowerCase()) ||
+          word.toLowerCase().endsWith(searchWord.toLowerCase())
+      )
+      .filter(({ word }) => !areWordsEqual(oneWord.word, word))
+      .map((w, i) => `${i + 1}. ${w.word} - ${w.translation}`);
 
-  if (foundWords.length === 0) {
-    return `No translation found for <b>${searchWord}</b>`;
+    if (relatedWords.length > 0) {
+      response += "<b>Related Words:</b>\n";
+      response += relatedWords.splice(0, 10).join("\n");
+    }
+
+    return response;
   } else {
-    let message = foundWords
-      .map((word, i) => `${i + 1}, ${word.word} => ${word.translation}`)
-      .join("\n");
-
-    return `<b>Translations</b>\n${message}`;
+    return `I couldn't find <b>${searchWord}</b>.`;
   }
 }
+
+const areWordsEqual = (word1: string, word2: string): boolean =>
+  word1.toLocaleLowerCase() === word2.toLocaleLowerCase();
